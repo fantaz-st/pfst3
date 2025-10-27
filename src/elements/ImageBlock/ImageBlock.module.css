@@ -1,0 +1,17 @@
+.imageWrapper {
+  margin: 1rem 0;
+  display: block;
+  position: relative;
+  min-width: 100%;
+  min-height: 400px;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.fullWidthImageWrapper {
+  margin: 1rem 0;
+  display: block;
+  position: relative;
+  cursor: pointer;
+}

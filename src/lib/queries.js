@@ -12,14 +12,18 @@ export const LATEST_POSTS = `
 `;
 
 export const POST_BY_SLUG = `
-  query PostBySlug($slug:ID!) {
-    post(id:$slug, idType:SLUG) {
+  query PostBySlug($slug: ID!) {
+    post(id: $slug, idType: SLUG) {
+      id
       title
       date
-      content
+      modified
+      featuredImage { node { sourceUrl altText } }
+      blocks(attributes: true, dynamicContent: true)
     }
   }
 `;
+
 export const ALL_PAGES = `
   query AllPages {
     pages(first: 20, where:{parent:null, status:PUBLISH}) {
@@ -37,33 +41,34 @@ export const PAGE_BY_PATH = `
     page(id: $path, idType: URI) {
       id
       title
-      content
-      editorBlocks(flat: false) {
-        __typename
-        name
-        clientId
-
-        ... on CoreFile {
-          attributes { id href textLinkHref fileName }
-          filesize
-          filesizeHuman
-          filetype
-          extension
+      modified
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+          
         }
-
-        innerBlocks {
-          __typename
-          name
-          clientId
-          ... on CoreFile {
-            attributes { id href textLinkHref fileName }
-            filesize
-            filesizeHuman
-            filetype
-            extension
+      }
+      ancestors {
+        nodes {
+          ... on Page {
+            id
+            uri
+            title
           }
         }
       }
+      children {
+        nodes {
+          ... on Page {
+            id
+            uri
+            title
+          }
+        }
+      }
+      # WPGraphQL Blocks payload (usually JSON string)
+      blocks(attributes: true, dynamicContent: true)
     }
   }
 `;
