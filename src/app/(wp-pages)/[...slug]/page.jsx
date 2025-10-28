@@ -1,5 +1,5 @@
 import { PAGE_BY_PATH } from "@/lib/queries";
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { notFound } from "next/navigation";
 
 import { wpFetch } from "@/lib/wp";
@@ -19,14 +19,10 @@ export default async function WpPage(props) {
   if (!page) return notFound();
 
   return (
-    <Container
-      // maxWidth={"xxxl"}
-      sx={{
-        padding: "0",
-        // paddingRight: { md: "4rem" },
-        margin: { xs: "0 auto 1rem", md: "3rem auto" },
-      }}
-    >
+    <Box>
+      <Typography variant="h3" gutterBottom>
+        {page.title}
+      </Typography>
       <BreadCrumbs data={pageData} />
       <Box sx={{ borderBottom: "1px solid", marginBottom: "2rem", marginTop: "0.5rem" }} />
 
@@ -42,6 +38,6 @@ export default async function WpPage(props) {
           ))}
         </Grid>
       )}
-    </Container>
+    </Box>
   );
 }

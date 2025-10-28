@@ -1,0 +1,8 @@
+.list {
+  padding-left: 1.5rem;
+  padding-top: 0rem !important;
+}
+
+.list .listItem:nth-of-type(1) {
+  padding-top: 0;
+}

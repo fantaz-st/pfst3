@@ -14,13 +14,13 @@ async function getMenu() {
 export default async function Layout({ children }) {
   const menuItems = await getMenu();
   return (
-    <Container>
+    <Container maxWidth="xxl">
       <Grid container>
         <Grid size={{ xs: 12, md: 3 }} sx={{ display: { xs: "none", lg: "block" }, position: "sticky", top: 24, alignSelf: "start" }}>
           <SideMenu menuItems={menuItems} />
         </Grid>
+        <Grid size={{ xs: 12, md: 9 }}>{children}</Grid>
       </Grid>
-      <Grid size={{ xs: 12, md: 9 }}>{children}</Grid>
     </Container>
   );
 }
