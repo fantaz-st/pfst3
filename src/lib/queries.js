@@ -35,6 +35,31 @@ export const ALL_PAGES = `
     }
   }
 `;
+export const ALL_PAGES_ALT = `
+query NewQuery {
+  pages(where: {status: PUBLISH}) {
+    nodes {
+      databaseId
+      parentDatabaseId
+      slug
+      title
+      uri
+    }
+  }
+}`;
+// old, and pfst2024 menu query
+export const pagesMenuQuery = `query NewQuery {
+    menu(id: "pages-menu", idType: NAME) {
+      menuItems(first:100) {
+        nodes {
+          databaseId
+          parentDatabaseId
+          label
+          uri
+        }
+      }
+    }
+  }`;
 
 export const PAGE_BY_PATH = `
   query PageByPath($path: ID!) {

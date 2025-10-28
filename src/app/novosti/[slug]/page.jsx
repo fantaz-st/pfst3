@@ -15,8 +15,6 @@ export default async function Post(props) {
 
   const blocks = Array.isArray(p.blocks) ? p.blocks : typeof p.blocks === "string" ? JSON.parse(p.blocks) : [];
 
-  console.log(p);
-
   return (
     <Container>
       <Typography variant="h3" gutterBottom>

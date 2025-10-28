@@ -40,7 +40,7 @@ const MuiShowcase = () => {
       {/* lists */}
       <Box>
         <Grid container sx={{ position: "relative", width: "100%" }}>
-          <Grid item xs={12} md={6}>
+          <Grid size={6}>
             <List
               component="ul"
               sx={{
@@ -58,7 +58,7 @@ const MuiShowcase = () => {
               <ListItem>List Item 4</ListItem>
             </List>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={6}>
             <List
               component="ol"
               sx={{

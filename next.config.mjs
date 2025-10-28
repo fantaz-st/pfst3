@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "fantaz.pfst.hr",
+        hostname: "backend.pfst.hr",
         pathname: "/wp-content/uploads/**",
       },
       {

@@ -1,0 +1,73 @@
+.menu {
+  padding: 0;
+  margin: 0;
+  background: var(--color-paper);
+  border-radius: var(--radius-lg);
+  list-style: none;
+}
+
+.item {
+  list-style: none;
+  line-height: 1;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: padding-left 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.link:hover {
+  padding-left: 0.9rem;
+  background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+}
+
+.linkActive {
+  color: var(--color-primary);
+}
+
+.label {
+  font-weight: 600;
+}
+
+.caretBtn {
+  margin-right: 0.25rem;
+  color: var(--color-text);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.caretBtn:hover {
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.caretIcon {
+  font-size: 1.2rem;
+}
+
+.collapse {
+  margin-left: 0.25rem;
+}
+
+.nestedList {
+  padding-left: 1rem; /* visual indent for children */
+}
+
+/* responsive: hide on small if desired (matches your original intent) */
+@media (max-width: 1024px) {
+  .menu {
+    display: none;
+  }
+}

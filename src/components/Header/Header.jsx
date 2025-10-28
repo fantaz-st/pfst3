@@ -6,8 +6,10 @@ export default async function Header() {
   const data = await wpFetch(ALL_PAGES);
   const pages = data.pages.nodes;
 
+  console.log(pages);
+
   return (
-    <header style={{ display: "flex", gap: "1rem", padding: "1rem", borderBottom: "1px solid #ccc" }}>
+    <header>
       <Link href="/">Početna</Link>
       <Link href="/novosti">Novosti</Link>
       {pages.map((p) => (
