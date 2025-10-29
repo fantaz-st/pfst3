@@ -32,7 +32,7 @@ export default async function WpPage(props) {
       {pageData?.page?.children?.nodes.length > 0 && (
         <Grid container spacing={3}>
           {pageData?.page?.children?.nodes.map((childPage, i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} style={{ width: "100%" }} key={childPage.id}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={childPage.id}>
               <SubPageLink subpage={{ link: childPage.uri, name: childPage.title }} />
             </Grid>
           ))}

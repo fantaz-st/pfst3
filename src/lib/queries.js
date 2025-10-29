@@ -31,6 +31,7 @@ export const ALL_PAGES = `
         slug
         title
         uri
+        databaseId
       }
     }
   }
