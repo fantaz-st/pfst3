@@ -3,6 +3,7 @@ import ThemeRegistry from "./ThemeRegistry";
 import { wpFetch } from "@/lib/wp";
 import { ALL_PAGES, pagesMenuQuery } from "@/lib/queries";
 import createDataTree from "@/functions/createDataTree";
+import { Box } from "@mui/material";
 export const metadata = { title: "PFST", description: "Pomorski fakultet u Splitu" };
 
 export default async function RootLayout({ children }) {
@@ -16,8 +17,11 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="hr" data-theme="light">
       <body>
-        <Header menuItems={menuItems} />
-        <ThemeRegistry>{children}</ThemeRegistry>
+        <ThemeRegistry>
+          <Header menuItems={menuItems} />
+          <Box sx={{ marginBottom: "4rem" }}></Box>
+          {children}
+        </ThemeRegistry>
       </body>
     </html>
   );

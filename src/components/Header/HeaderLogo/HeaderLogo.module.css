@@ -8,16 +8,16 @@
   position: relative;
   display: flex;
   height: 50px;
-  width: 50px;
+  width: 100px;
 }
 
 .logoImg {
   object-fit: contain;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 640px) {
   .logoBox {
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 120px;
   }
 }

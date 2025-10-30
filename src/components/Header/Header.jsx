@@ -9,27 +9,18 @@ import HeaderMenu from "./HeaderMenu/HeaderMenu";
 import classes from "./Header.module.css";
 import HeaderLogo from "./HeaderLogo/HeaderLogo";
 
-const MENU = [
-  { href: "/rafmagn", label: "Rafmagn" },
-  { href: "/hles", label: "Hleđslustöðvar" },
-  { href: "/odrzivost", label: "Održivost" },
-  { href: "/projekti", label: "Projekti" },
-  { href: "/o-nama", label: "O nama" },
-  { href: "/novosti", label: "Novosti" },
-];
-
 export default function Header({ menuItems }) {
   const [open, setOpen] = useState(false);
   const [offset, setOffset] = useState(0);
-  const headerH = useRef(72);
+  const headerH = useRef(100);
   const lastY = useRef(0);
   const raf = useRef(false);
   const appBarRef = useRef(null);
 
   useLayoutEffect(() => {
-    if (appBarRef.current) headerH.current = appBarRef.current.offsetHeight || 72;
+    if (appBarRef.current) headerH.current = appBarRef.current.offsetHeight || 100;
     const onResize = () => {
-      if (appBarRef.current) headerH.current = appBarRef.current.offsetHeight || 72;
+      if (appBarRef.current) headerH.current = appBarRef.current.offsetHeight || 100;
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -60,49 +51,43 @@ export default function Header({ menuItems }) {
     <>
       <Box>
         <AppBar ref={appBarRef} elevation={0} color="transparent" className={classes.header} style={{ transform: `translateY(${-offset}px)` }}>
-          <Toolbar className={classes.toolbar}>
-            <div className={classes.bar}>
-              <HeaderLogo />
-              <div className={classes.center}>
+          <Toolbar className={classes.toolbar} disableGutters>
+            <Box className={classes.bar}>
+              <Box className={classes.left}>
+                <HeaderLogo />
                 <HeaderMenu menuItems={menuItems || []} variant="horizontal" />
-              </div>
-              <div className={classes.right}>
-                <Link href="/en" className={classes.lang}>
-                  EN
-                </Link>
-                <Link href="/moje-stranice" className={classes.account}>
-                  <PersonOutlineIcon fontSize="small" style={{ marginRight: 8 }} />
-                  Moje stranice
-                </Link>
-                <Link href="/upisi" className={classes.cta}>
-                  Upisi
-                </Link>
-                <IconButton className={classes.burger} edge="end" aria-label="menu" onClick={() => setOpen(true)}>
-                  <MenuIcon />
-                </IconButton>
-              </div>
-            </div>
+              </Box>
+              <Box className={classes.right}>
+                <Box className={classes.lang}>
+                  <Link href="/en">EN</Link>
+                </Box>
+
+                <Box className={classes.burger}>
+                  <IconButton edge="end" aria-label="menu" onClick={() => setOpen(true)}>
+                    <MenuIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+            </Box>
           </Toolbar>
         </AppBar>
       </Box>
 
-      <div className={classes.spacer} />
+      <Box className={classes.spacer} />
 
-      <Drawer open={open} onClose={() => setOpen(false)} anchor="right" PaperProps={{ className: classes.drawerPaper }}>
-        <div className={classes.drawerWrap}>
-          <div className={classes.drawerLogo}>
-            <Link href="/" onClick={() => setOpen(false)}>
-              <img src="/assets/logo/logo-color-hr.svg" alt="PFST" className={classes.logo} />
-            </Link>
+      <Drawer open={open} onClose={() => setOpen(false)} anchor="right">
+        <Box className={classes.drawerWrap}>
+          <Box className={classes.drawerLogo}>
+            <HeaderLogo />
             <IconButton onClick={() => setOpen(false)} aria-label="close">
               <MenuIcon />
             </IconButton>
-          </div>
+          </Box>
           <HeaderMenu menuItems={menuItems || []} variant="horizontal" />
           <Link href="/upisi" onClick={() => setOpen(false)} className={classes.drawerCta}>
             Upisi
           </Link>
-        </div>
+        </Box>
       </Drawer>
     </>
   );

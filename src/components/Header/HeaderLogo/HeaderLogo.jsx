@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import MainLogoSmall from "../../../../assets/logo/pfst-logo-new-fntz-color.svg";
+import MainLogoSmall from "../../../../assets/logo/pfst-logo-new-fntz-long-color.svg";
 import classes from "./HeaderLogo.module.css";
 import { Box } from "@mui/material";
 
