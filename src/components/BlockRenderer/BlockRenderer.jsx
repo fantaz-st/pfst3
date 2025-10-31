@@ -9,6 +9,9 @@ import ImageBlock from "@/elements/ImageBlock/ImageBlock";
 import ColumnsBlock from "@/elements/ColumnsBlock/ColumnsBlock";
 import ListBlock from "@/elements/ListBlock/ListBlock";
 import ListItemBlock from "@/elements/ListItemBlock/ListItemBlock";
+import GroupBlock from "@/elements/GroupBlock/GroupBlock";
+import DetailsBlock from "@/elements/DetailsBlock/DetailsBlock";
+import TableBlock from "@/elements/TableBlock/TableBlock";
 
 export default function BlockRenderer({ block }) {
   if (!block) return null;
@@ -23,7 +26,7 @@ export default function BlockRenderer({ block }) {
     case "core/spacer":
       return <Spacer height={attributes.height} divider={attributes.divider} />;
     case "core/columns":
-      return <ColumnsBlock innerBlocks={innerBlocks} />;
+      return <ColumnsBlock innerBlocks={innerBlocks} attributes={attributes} />;
     case "core/file":
       return <FileBlock href={attributes.href} title={attributes.fileLabel || attributes.fileTitle || attributes.fileName} size={attributes.filesizeHuman} />;
     case "core/image":
@@ -32,6 +35,16 @@ export default function BlockRenderer({ block }) {
       return <ListBlock block={block} />;
     case "core/list-item":
       return <ListItemBlock block={block} />;
+    case "core/group":
+      return <GroupBlock block={block} />;
+    case "core/details": {
+      const open = !!attributes.showContent;
+      const summary = attributes.summary || "";
+      return <DetailsBlock summary={summary} open={open} innerBlocks={innerBlocks} />;
+    }
+    case "core/table":
+      return <TableBlock headers={attributes.headers || []} rows={attributes.rows || []} caption={attributes.caption || ""} fixed={!!attributes.fixed} />;
+
     default:
       return dynamicContent ? <HtmlBlock html={dynamicContent} /> : innerBlocks?.length ? innerBlocks.map((b, i) => <BlockRenderer key={b?.clientId || i} block={b} />) : null;
   }

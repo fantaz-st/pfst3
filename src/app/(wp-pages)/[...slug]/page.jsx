@@ -1,5 +1,7 @@
+// fancybox;
+
 import { PAGE_BY_PATH } from "@/lib/queries";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { notFound } from "next/navigation";
 
 import { wpFetch } from "@/lib/wp";
