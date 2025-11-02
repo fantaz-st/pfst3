@@ -8,6 +8,7 @@ import { wpFetch } from "@/lib/wp";
 import BlockRenderer from "@/components/BlockRenderer/BlockRenderer";
 import SubPageLink from "@/elements/SubPageLink/SubPageLink";
 import BreadCrumbs from "@/components/BreadCrumbs/BreadCrumbs";
+import FancyboxScope from "@/components/FancyboxScope/FancyboxScope";
 
 export const revalidate = 300;
 
@@ -28,9 +29,11 @@ export default async function WpPage(props) {
       <BreadCrumbs data={pageData} />
       <Box sx={{ borderBottom: "1px solid", marginBottom: "2rem", marginTop: "0.5rem" }} />
 
-      {pageData?.page?.blocks?.map((block, i) => {
-        return <BlockRenderer block={block} key={i} />;
-      })}
+      <FancyboxScope>
+        {pageData?.page?.blocks?.map((block, i) => {
+          return <BlockRenderer block={block} key={i} />;
+        })}
+      </FancyboxScope>
       {pageData?.page?.children?.nodes.length > 0 && (
         <Grid container spacing={3}>
           {pageData?.page?.children?.nodes.map((childPage, i) => (
