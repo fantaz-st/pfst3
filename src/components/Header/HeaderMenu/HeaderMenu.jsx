@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import classes from "./HeaderMenu.module.css";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -31,7 +31,7 @@ export default function HeaderMenu({ menuItems, variant = "horizontal" }) {
       const items = gsap.utils.toArray(`.${classes.hasChildren}`, root);
       const allLinks = root.querySelectorAll("a");
       const initialColor = getComputedStyle(allLinks[0])?.color || "inherit";
-
+      // gsap.set(overlay, { height: "100%" });
       items.forEach((it) => {
         const submenu = it.querySelector(`.${classes.subMenu}`);
         const subs = submenu ? submenu.querySelectorAll(`.${classes.subMenuItem}`) : [];
@@ -71,11 +71,26 @@ export default function HeaderMenu({ menuItems, variant = "horizontal" }) {
               </Link>
               {!!it.childNodes?.length && (
                 <Box className={classes.subMenu}>
-                  {it.childNodes.map((subIt) => (
-                    <Link key={subIt.databaseId} href={subIt.uri} className={classes.subMenuItem}>
-                      <Typography variant="subtitle1">{subIt.label}</Typography>
-                    </Link>
-                  ))}
+                  <Grid container>
+                    {it.childNodes.map((subIt) => (
+                      <Grid size={it.childNodes.length <= 3 ? 4 : 3} key={subIt.databaseId}>
+                        <Box className={classes.subMenuItem}>
+                          <Link href={subIt.uri}>
+                            <Typography variant="subtitle1" className={classes.label}>
+                              {subIt.label}
+                            </Typography>
+                          </Link>
+                          {subIt.childNodes.map((subSubIt) => (
+                            <Box className={classes.subSubMenuItem} key={subSubIt.databaseId}>
+                              <Link href={subSubIt.uri}>
+                                <Typography variant="subtitle1">{subSubIt.label}</Typography>
+                              </Link>
+                            </Box>
+                          ))}
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
                 </Box>
               )}
             </Box>
