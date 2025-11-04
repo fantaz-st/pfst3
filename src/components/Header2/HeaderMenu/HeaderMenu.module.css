@@ -1,0 +1,143 @@
+.menu {
+  display: none;
+  height: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+.menuItems {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  list-style: none;
+}
+
+.menuItem {
+  position: relative;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.menuItems > .menuItem + .menuItem {
+  border-left: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.topLink,
+.menuItem a {
+  display: block;
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+.label {
+  color: var(--color-text);
+}
+
+.menuItem .label,
+.subMenuItem .label {
+  text-transform: uppercase;
+}
+
+.subSubMenuItem .label {
+  text-transform: none;
+  font-weight: 300;
+}
+
+.hasChildren .subMenu {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--header-height, 64px);
+  z-index: 10;
+  padding: 0 2rem 2rem;
+  white-space: normal;
+  background: #fff;
+}
+
+.hasChildren:hover .subMenu,
+.menuItem.open .subMenu {
+  display: block;
+}
+
+.topLink:hover .label {
+  color: var(--color-secondary);
+}
+
+.subMenuItem:hover > a .label,
+.subSubMenuItem:hover > a .label {
+  color: var(--color-secondary);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: #fff;
+  transition: height 0.3s ease-out;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  background: transparent;
+  padding: 16px 24px 0;
+  text-align: left;
+}
+
+.footer h6 {
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.footer a {
+  margin-right: 1.25rem;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.footer a:hover {
+  color: var(--color-secondary);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.subSubMenuItem a,
+.subSubMenuItem .label {
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .menu {
+    display: inline-block;
+  }
+
+  .menuItems {
+    display: flex;
+  }
+}
+
+.subMenuMask {
+  overflow: hidden;
+  will-change: clip-path;
+}

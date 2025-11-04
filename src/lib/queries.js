@@ -50,8 +50,8 @@ query NewQuery {
 }`;
 // old, and pfst2024 menu query
 export const pagesMenuQuery = `query NewQuery {
-    menu(id: "pages-menu", idType: NAME) {
-      menuItems(first:100) {
+    menu(id: "main", idType: NAME) {
+      menuItems(first:200) {
         nodes {
           databaseId
           parentDatabaseId
