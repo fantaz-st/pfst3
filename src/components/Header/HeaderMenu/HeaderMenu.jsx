@@ -31,7 +31,6 @@ export default function HeaderMenu({ menuItems, variant = "horizontal" }) {
       const items = gsap.utils.toArray(`.${classes.hasChildren}`, root);
       const allLinks = root.querySelectorAll("a");
       const initialColor = getComputedStyle(allLinks[0])?.color || "inherit";
-      // gsap.set(overlay, { height: "100%" });
       items.forEach((it) => {
         const submenu = it.querySelector(`.${classes.subMenu}`);
         const subs = submenu ? submenu.querySelectorAll(`.${classes.subMenuItem}`) : [];
@@ -72,18 +71,20 @@ export default function HeaderMenu({ menuItems, variant = "horizontal" }) {
               {!!it.childNodes?.length && (
                 <Box className={classes.subMenu}>
                   <Grid container>
-                    {it.childNodes.map((subIt) => (
-                      <Grid size={it.childNodes.length <= 3 ? 4 : 3} key={subIt.databaseId}>
+                    {it.childNodes.map((subItem) => (
+                      <Grid size={it.childNodes.length <= 3 ? 4 : 3} key={subItem.databaseId}>
                         <Box className={classes.subMenuItem}>
-                          <Link href={subIt.uri}>
+                          <Link href={subItem.uri}>
                             <Typography variant="subtitle1" className={classes.label}>
-                              {subIt.label}
+                              {subItem.label}
                             </Typography>
                           </Link>
-                          {subIt.childNodes.map((subSubIt) => (
-                            <Box className={classes.subSubMenuItem} key={subSubIt.databaseId}>
-                              <Link href={subSubIt.uri}>
-                                <Typography variant="subtitle1">{subSubIt.label}</Typography>
+                          {subItem.childNodes.map((subSubItem) => (
+                            <Box className={classes.subSubMenuItem} key={subSubItem.databaseId}>
+                              <Link href={subSubItem.uri}>
+                                <Typography variant="subtitle1" className={classes.label}>
+                                  {subSubItem.label}
+                                </Typography>
                               </Link>
                             </Box>
                           ))}
@@ -97,8 +98,18 @@ export default function HeaderMenu({ menuItems, variant = "horizontal" }) {
           ))}
         </Box>
       </nav>
-      <div className={classes.overlay} ref={overlayRef} />
-      <div className={classes.backdrop} ref={backdropRef} />
+      <Box className={classes.overlay} ref={overlayRef}>
+        <Box className={classes.footer}>
+          <Typography variant="h6">Zapratite nas</Typography>
+          <Box>
+            <a href="/">FaceBook</a>
+            <a href="/">Instagram</a>
+            <a href="/">LinkedIn</a>
+            <a href="/">Twitter</a>
+          </Box>
+        </Box>
+      </Box>
+      <Box className={classes.backdrop} ref={backdropRef} />
     </>
   );
 }
