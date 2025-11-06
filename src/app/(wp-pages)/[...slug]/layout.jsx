@@ -1,14 +1,14 @@
 import { Container, Grid } from "@mui/material";
 import SideMenu from "@/components/SideMenu/SideMenu";
-import { wpFetch } from "@/lib/wp";
+import { wpFetch, wpFetchAllMenuItems } from "@/lib/wp";
 import { pagesMenuQuery } from "@/lib/queries";
 import createDataTree from "@/functions/createDataTree";
 
 export const revalidate = 300;
 
 async function getMenu() {
-  const menuData = await wpFetch(pagesMenuQuery);
-  return createDataTree(menuData.menu.menuItems.nodes);
+  const flat = await wpFetchAllMenuItems();
+  return createDataTree(flat);
 }
 
 export default async function Layout({ children }) {

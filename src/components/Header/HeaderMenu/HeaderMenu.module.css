@@ -9,6 +9,8 @@
   display: flex;
   align-items: center;
   height: 100%;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -18,18 +20,13 @@
   height: 100%;
   display: flex;
   align-items: center;
+  border-bottom: 2px solid transparent;
 }
 
-.menuItem:hover .label {
-  text-decoration: underline;
+.menuItem:hover {
+  border-bottom-color: rgba(0, 0, 0, 0.25);
 }
 
-.menuItems > .menuItem:nth-child(1) {
-  border-left: 1px solid rgba(0, 0, 0, 0.25);
-}
-.menuItems > .menuItem + .menuItem {
-  border-left: 1px solid rgba(0, 0, 0, 0.25);
-}
 .label {
   color: var(--color-text);
 }
@@ -41,7 +38,29 @@
 
 .subSubMenuItem .label {
   text-transform: none;
-  font-weight: 300;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.topLink {
+  display: inline-flex;
+  overflow: hidden;
+  flex-direction: column;
+  position: relative;
+  margin: 1em 0.5em;
+  height: 1.35rem;
+  text-decoration: none;
+  z-index: 3;
+}
+
+.menuItem .inner {
+  transform: translateY(0);
+  transition: transform 0.32s;
+}
+.menuItem:hover .inner {
+  transform: translateY(-100%);
 }
 
 .hasChildren .subMenu {
@@ -51,7 +70,7 @@
   right: 0;
   top: 100%;
   z-index: 10;
-  padding: 0 2rem 2rem;
+  padding: 2rem;
   white-space: normal;
   margin-top: -1px;
 }
@@ -59,6 +78,33 @@
 .hasChildren:hover .subMenu,
 .menuItem.open .subMenu {
   display: block;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem 3rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-right: 2rem;
+  border-right: 2px solid rgba(0, 0, 0, 0.06);
+}
+
+.column:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+.columnHead .label {
+  display: inline;
+}
+
+.subMenuItem .label:hover,
+.subSubMenuItem .label:hover {
+  text-decoration: underline;
 }
 
 .overlay {
@@ -72,7 +118,10 @@
   z-index: 2;
   pointer-events: none;
   overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px);
 }
+
 .backdrop {
   position: fixed;
   inset: 0;

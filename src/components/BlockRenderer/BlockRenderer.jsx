@@ -28,7 +28,7 @@ export default function BlockRenderer({ block }) {
     case "core/columns":
       return <ColumnsBlock innerBlocks={innerBlocks} attributes={attributes} />;
     case "core/file":
-      return <FileBlock href={attributes.href} title={attributes.fileLabel || attributes.fileTitle || attributes.fileName} size={attributes.filesizeHuman} />;
+      return <FileBlock attributes={attributes} />;
     case "core/image":
       return <ImageBlock attributes={attributes} />;
     case "core/list":

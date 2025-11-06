@@ -1,8 +1,7 @@
 import classes from "./HeaderMenu.module.css";
 import Link from "next/link";
-import { Box, Grid, Typography } from "@mui/material";
-
-import { useRef } from "react";
+import { Box, Typography } from "@mui/material";
+import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -16,28 +15,54 @@ export default function HeaderMenu({ menuItems }) {
       const root = rootRef.current;
       const overlay = overlayRef.current;
       const backdrop = backdropRef.current;
-      const items = gsap.utils.toArray(`.${classes.hasChildren}`, root);
+      const items = root.querySelectorAll(`.${classes.hasChildren}`);
 
-      items.forEach((it) => {
+      const onEnter = (it) => {
         const submenu = it.querySelector(`.${classes.subMenu}`);
-        const subs = submenu ? submenu.querySelectorAll(`.${classes.subMenuItem}`) : [];
-        gsap.set(subs, { opacity: 0, y: -10 });
+        if (!submenu) return;
 
-        it.addEventListener("mouseenter", () => {
-          const h = (submenu?.offsetHeight || 0) + it.offsetHeight;
-          overlay.style.height = `${h}px`;
+        const cols = submenu.querySelectorAll(`.${classes.column}`);
+        const heads = submenu.querySelectorAll(`.${classes.subMenuItem}`);
+        const leaves = submenu.querySelectorAll(`.${classes.subSubMenuItem}`);
 
-          gsap.to(backdrop, { opacity: 0.6, pointerEvents: "auto", duration: 0.3, ease: "power2.out" });
-          gsap.to(subs, { opacity: 1, y: 0, duration: 0.3, stagger: 0.07, ease: "power3.out" });
-        });
+        gsap.killTweensOf([cols, heads]);
+        gsap.set(leaves, { autoAlpha: 1, yPercent: 0 });
+        gsap.set([cols, heads], { autoAlpha: 0, yPercent: -6 });
 
-        it.addEventListener("mouseleave", () => {
-          overlay.style.height = "0";
+        const h = (submenu.scrollHeight || 0) + root.offsetHeight + 24;
+        overlay.style.height = `${h}px`;
 
-          gsap.to(backdrop, { opacity: 0, pointerEvents: "none", duration: 0.3, ease: "power2.in" });
-          gsap.to(subs, { opacity: 0, y: -10, duration: 0.3, stagger: 0.1, ease: "power3.in" });
+        gsap.to(backdrop, { autoAlpha: 0.6, duration: 0.14, onStart: () => (backdrop.style.pointerEvents = "auto") });
+        gsap.to(cols, { autoAlpha: 1, yPercent: 0, duration: 0.14, stagger: 0.02, ease: "power2.out" });
+        gsap.to(heads, { autoAlpha: 1, yPercent: 0, duration: 0.14, stagger: 0.01, ease: "power2.out", delay: 0.02 });
+      };
+
+      const onLeave = (it) => {
+        const submenu = it.querySelector(`.${classes.subMenu}`);
+        if (!submenu) return;
+
+        const cols = submenu.querySelectorAll(`.${classes.column}`);
+        const heads = submenu.querySelectorAll(`.${classes.subMenuItem}`);
+
+        overlay.style.height = "0";
+        gsap.to(backdrop, { autoAlpha: 0, duration: 0.14, onComplete: () => (backdrop.style.pointerEvents = "none") });
+        gsap.killTweensOf([cols, heads]);
+        gsap.to([cols, heads], { autoAlpha: 0, yPercent: -6, duration: 0.12, stagger: 0.01, ease: "power2.in" });
+      };
+
+      const fns = [];
+      items.forEach((it) => {
+        const enter = () => onEnter(it);
+        const leave = () => onLeave(it);
+        it.addEventListener("mouseenter", enter);
+        it.addEventListener("mouseleave", leave);
+        fns.push(() => {
+          it.removeEventListener("mouseenter", enter);
+          it.removeEventListener("mouseleave", leave);
         });
       });
+
+      return () => fns.forEach((fn) => fn());
     },
     { scope: rootRef }
   );
@@ -45,46 +70,55 @@ export default function HeaderMenu({ menuItems }) {
   return (
     <>
       <Box as="nav" className={classes.navbar} ref={rootRef}>
-        <Box className={classes.menuItems}>
-          {menuItems.map((menuItem, i) => (
-            <Box key={menuItem.databaseId} className={`${classes.menuItem} ${menuItem.childNodes?.length ? classes.hasChildren : ""}`}>
-              <Link href={menuItem.uri}>
-                <Typography variant="h6" className={classes.label}>
-                  {menuItem.label}
-                </Typography>
+        <Box component="ul" className={classes.menuItems}>
+          {menuItems.map((menuItem) => (
+            <Box component="li" key={menuItem.databaseId} className={`${classes.menuItem} ${menuItem.childNodes?.length ? classes.hasChildren : ""}`}>
+              <Link href={menuItem.uri} className={classes.topLink}>
+                <Box className={classes.inner}>
+                  <Typography className={classes.label} variant="h6">
+                    {menuItem.label}
+                  </Typography>
+                </Box>
+                <Box className={classes.inner} aria-hidden="true">
+                  <Typography className={classes.label} variant="h6">
+                    {menuItem.label}
+                  </Typography>
+                </Box>
               </Link>
+
               {!!menuItem.childNodes?.length && (
                 <Box className={classes.subMenu}>
-                  <Grid container>
+                  <Box className={classes.columns}>
                     {menuItem.childNodes.map((subItem) => (
-                      <Grid size={menuItem.childNodes.length <= 3 ? 4 : 3} key={subItem.databaseId}>
-                        <Box className={classes.subMenuItem}>
+                      <Box key={subItem.databaseId} className={classes.column}>
+                        <Box className={`${classes.subMenuItem} ${classes.columnHead}`}>
                           <Link href={subItem.uri}>
-                            <Typography variant="subtitle1" className={classes.label}>
+                            <Typography variant="h6" className={classes.label}>
                               {subItem.label}
                             </Typography>
                           </Link>
-                          {subItem.childNodes.map((subSubItem) => (
-                            <Box className={classes.subSubMenuItem} key={subSubItem.databaseId}>
-                              <Link href={subSubItem.uri}>
-                                <Typography variant="subtitle1" className={classes.label}>
-                                  {subSubItem.label}
-                                </Typography>
-                              </Link>
-                            </Box>
-                          ))}
                         </Box>
-                      </Grid>
+                        {subItem.childNodes.map((subSubItem) => (
+                          <Box className={classes.subSubMenuItem} key={subSubItem.databaseId}>
+                            <Link href={subSubItem.uri}>
+                              <Typography variant="subtitle1" className={classes.label}>
+                                {subSubItem.label}
+                              </Typography>
+                            </Link>
+                          </Box>
+                        ))}
+                      </Box>
                     ))}
-                  </Grid>
+                  </Box>
                 </Box>
               )}
             </Box>
           ))}
         </Box>
       </Box>
-      <div className={classes.overlay} ref={overlayRef}></div>
-      <div className={classes.backdrop} ref={backdropRef}></div>
+
+      <Box className={classes.overlay} ref={overlayRef} />
+      <Box className={classes.backdrop} ref={backdropRef} />
     </>
   );
 }

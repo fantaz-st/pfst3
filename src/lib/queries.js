@@ -62,6 +62,16 @@ export const pagesMenuQuery = `query NewQuery {
     }
   }`;
 
+// new, paginated menu query
+export const MENU_PAGE = `query MenuPage($after:String) {
+  menu(id:"main", idType: NAME) {
+    menuItems(first:100, after:$after) {
+      nodes { databaseId parentDatabaseId label uri }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}`;
+
 export const PAGE_BY_PATH = `
   query PageByPath($path: ID!) {
     page(id: $path, idType: URI) {
