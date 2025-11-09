@@ -132,3 +132,9 @@
   pointer-events: none;
   z-index: 1;
 }
+
+@media screen and (max-width: 1200px) {
+  .navbar {
+    display: none;
+  }
+}

@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HeaderMenu from "./HeaderMenu/HeaderMenu";
 import classes from "./Header.module.css";
 import HeaderLogo from "./HeaderLogo/HeaderLogo";
+import MobileMenuDrawer from "./HeaderMenu/MobileMenuDrawer/MobileMenuDrawer";
 
 export default function Header({ menuItems }) {
   const [open, setOpen] = useState(false);
@@ -97,20 +98,7 @@ export default function Header({ menuItems }) {
 
       <Box className={classes.spacer} style={{ minHeight: spacerH }} />
 
-      <Drawer id={drawerId} open={open} onClose={() => setOpen(false)} anchor="right" ModalProps={{ keepMounted: true }} PaperProps={{ className: classes.drawerPaper }}>
-        <Box className={classes.drawerWrap}>
-          <Box className={classes.drawerLogo}>
-            <HeaderLogo />
-            <IconButton onClick={() => setOpen(false)} aria-label="Close menu">
-              <CloseIcon />
-            </IconButton>
-          </Box>
-          <HeaderMenu menuItems={menuItems || []} variant="horizontal" />
-          <Link href="/upisi" onClick={() => setOpen(false)} className={classes.drawerCta}>
-            Upisi
-          </Link>
-        </Box>
-      </Drawer>
+      <MobileMenuDrawer open={open} onClose={() => setOpen(false)} menuItems={menuItems || []} />
     </>
   );
 }

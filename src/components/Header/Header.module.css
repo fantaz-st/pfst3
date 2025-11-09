@@ -76,7 +76,7 @@
   margin-left: auto;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1200px) {
   .toolbar {
     height: 100px;
   }
