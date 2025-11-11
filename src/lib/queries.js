@@ -10,6 +10,45 @@ export const LATEST_POSTS = `
     }
   }
 `;
+export const ALL_NEWS = `
+  query AllNews(
+    $first:Int!=12,
+    $after:String,
+    $search:String,
+    $category:String,
+    $tag:String,
+    $year:Int,
+    $month:Int,
+    $order:OrderEnum=DESC
+  ){
+    categories(first:100){ nodes{ name slug count } }
+    tags(first:100){ nodes{ name slug count } }
+    posts(
+      first:$first
+      after:$after
+      where:{
+        status:PUBLISH
+        orderby:{ field:DATE, order:$order }
+        search:$search
+        categoryName:$category
+        tag:$tag
+        dateQuery:{ year:$year, month:$month }
+      }
+    ){
+      pageInfo{ hasNextPage endCursor }
+      nodes{
+        id
+        slug
+        title
+        date
+        excerpt
+        featuredImage{ node{ sourceUrl altText mediaDetails{ width height } } }
+        categories{ nodes{ name slug } }
+        tags{ nodes{ name slug } }
+      }
+    }
+  }
+`;
 
 export const POST_BY_SLUG = `
   query PostBySlug($slug: ID!) {

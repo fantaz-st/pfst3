@@ -1,0 +1,21 @@
+.bar {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr repeat(5, minmax(0, 180px));
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: var(--bg, #fff);
+  padding: 8px 0;
+  z-index: 1;
+}
+.bar input,
+.bar select,
+.bar button {
+  padding: 10px;
+}
+@media (max-width: 720px) {
+  .bar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
